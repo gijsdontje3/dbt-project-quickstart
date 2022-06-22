@@ -1,0 +1,160 @@
+# ----------------------------------------------------------------------------------------
+#   _____       _______        _____ ______ _   _  _____ ______ 
+#  |  __ \   /\|__   __|/\    / ____|  ____| \ | |/ ____|  ____|
+#  | |  | | /  \  | |  /  \  | (___ | |__  |  \| | (___ | |__   
+#  | |  | |/ /\ \ | | / /\ \  \___ \|  __| | . ` |\___ \|  __|  
+#  | |__| / ____ \| |/ ____ \ ____) | |____| |\  |____) | |____ 
+#  |_____/_/    \_\_/_/    \_\_____/|______|_| \_|_____/|______|
+#
+# ----------------------------------------------------------------------------------------
+
+# Every project needs a dbt_project.yml file, to let dbt know this directory is a project.
+# It also contains important information that tells dbt how to operate on your project.
+
+# ----------------------------------------------------------------------------------------
+
+# Project names should contain only lowercase characters and underscores... oops ¯\_(ü)_/¯
+name: 'TO_BE_REPLACED'
+version: '1.1.1'
+config-version: 2 # Without this, dbt assumes this file uses the (deprecated) v1 syntax.
+
+# This setting configures which "profile" dbt uses for this project.
+# Needs to match a profile defined in profiles.yml (usually located under /root/.dbt/).
+profile: 'TO_BE_REPLACED'
+
+# ----------------------------------------------------------------------------------------
+# These configurations specify where dbt should look for different types of files.
+# You probably won't need to change these.
+# ----------------------------------------------------------------------------------------
+
+# Specifies directories where models and sources are located.
+# More info: https://docs.getdbt.com/docs/building-a-dbt-project/building-models
+model-paths: ["models"]
+
+# Without specifying analysis-paths, dbt will not compile any .sql files as analyses.
+# However, the dbt init command populates this value as "analyses".
+# More info: https://docs.getdbt.com/docs/building-a-dbt-project/analyses
+analysis-paths: ["analyses"]
+
+# Specifies directories where data tests are located.
+# More info: https://docs.getdbt.com/reference/project-configs/test-paths
+test-paths: ["tests"]
+
+# Specifies directories where seed files are located.
+# More info: https://docs.getdbt.com/reference/project-configs/seed-paths
+seed-paths: ["seeds"]
+
+# Specifies directories where macros are located. 
+# Note that you cannot co-locate models and macros.
+# More info: https://docs.getdbt.com/reference/project-configs/macro-paths
+macro-paths: ["macros"]
+
+# Specifies directories where snapshots are located.
+# Note that you cannot co-locate models and snapshots.
+# More info: https://docs.getdbt.com/reference/project-configs/snapshot-paths
+snapshot-paths: ["snapshots"]
+
+# Optionally specify a custom list of directories where docs blocks are located.
+# Typically omitted as dbt's default behavior is usually preferred.
+# More info: https://docs.getdbt.com/reference/project-configs/docs-paths
+# docs-paths: [directorypath]
+
+# Optionally specify a custom list of directories to copy to the target directory.
+# This is useful for rendering images in your repository in your project documentation.
+# More info: https://docs.getdbt.com/reference/project-configs/asset-paths
+asset-paths: ["assets"]
+
+# Directory where dbt will write logs.
+# More info: https://docs.getdbt.com/reference/project-configs/log-path
+log-path: "logs"
+
+# Directory where packages are installed when you run the dbt deps command.
+# Note that this directory is usually git-ignored.
+# More info: https://docs.getdbt.com/reference/project-configs/packages-install-path
+packages-install-path: "dbt_packages"
+
+# Directory where dbt run/compile/test stores compiled model and test SQL files
+# More info: https://docs.getdbt.com/reference/project-configs/target-path
+target-path: "target"
+
+# Specifies which directories should be removed by dbt clean command
+# Should only include directories containing artifacts (e.g. compiled files, logs, ...)
+# More info: https://docs.getdbt.com/reference/project-configs/clean-targets
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# ----------------------------------------------------------------------------------------
+# Miscellaneous parameters
+# ----------------------------------------------------------------------------------------
+
+# A string to inject as a comment in each query that dbt runs against your database.
+# Can use variables and macros to dynamically build comments.
+# More info: https://docs.getdbt.com/reference/project-configs/query-comment
+query-comment:
+  comment: "run by {{ target.user }}"
+  append: true
+
+# If this configuration is not specified, no version check will occur.
+# More info: https://docs.getdbt.com/reference/project-configs/require-dbt-version
+# To suppress failures, supply the --no-version-check flag to dbt run command.
+# require-dbt-version: ">=1.0.0"
+require-dbt-version: [">=1.0.0", "<2.0.0"]
+
+# Optionally configure whether dbt should quote databases, schemas, and identifiers when:
+# - creating relations (tables/views)
+# - resolving a ref function to a direct relation reference
+# On Snowflake, quoting is set to false by default.
+# More info: https://docs.getdbt.com/reference/project-configs/quoting
+quoting:
+  database: false
+  schema: false
+  identifier: false
+
+# ----------------------------------------------------------------------------------------
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+# ----------------------------------------------------------------------------------------
+
+# These settings can be overridden in model files using the `{{ config(...) }}` macro.
+# There are four types of materializations built into dbt. They are:
+#     table
+#     view
+#     incremental
+#     ephemeral
+models:
+  # By default, all Snowflake tables created by dbt are transient.
+  # https://docs.getdbt.com/reference/resource-configs/snowflake-configs
+  # https://docs.snowflake.com/en/user-guide/tables-temp-transient.html#transient-tables
+  +transient: false
+  TO_BE_REPLACED: # Needs to match the name mentioned at the top
+    # Config indicated by + and applies to all files under models/example/\
+    + materialized: view # applies project-wide
+    staging:
+      + schema: staging # applies to folder and subdirectories
+    marts:
+      + materialized: table
+      + schema: data_mart
+
+# seeds:
+#   <seed-configs>
+
+# snapshots:
+#   <snapshot-configs>
+
+# sources:
+#   <source-configs>
+  
+# tests:
+#   <test-configs>
+
+vars:
+  dbt_date:
+    'dbt_date:time_zone': 'Europe/Brussels'
+
+# on-run-start: sql-statement | [sql-statement]
+# on-run-end: sql-statement | [sql-statement]
+
+# dispatch:
+#   - macro_namespace: packagename
+#     search_order: [packagename]
