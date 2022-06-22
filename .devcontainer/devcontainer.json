@@ -1,0 +1,12 @@
+{
+    "name": "dbt-project-template",
+    "dockerFile": "Dockerfile",
+    "extensions": [
+        "eliverlara.andromeda",
+        "ms-python.python"
+    ],
+    "settings": {
+        "workbench.colorTheme": "Andromeda Bordered"
+    },
+    "postCreateCommand": ["python", "dbt_init.py"]
+}
