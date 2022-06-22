@@ -1,4 +1,4 @@
-import os, subprocess
+import os, subprocess, re
 from typing import Iterable
 
 
@@ -40,13 +40,18 @@ def write_profiles(project_name: str, target:str, target_env: str, parameters: I
 
 def write_project_config(project_name: str):
     os.system('cp dbt_project_template.yml dbt_project.yml')
+    project_config = ''
     with open('dbt_project.yml', 'r') as project_file:
-        project_config = project_file.read().replace('TO_BE_REPLACED', project_name)
+        project_config += project_file.read().replace('TO_BE_REPLACED', project_name)
+    with open('dbt_project.yml', 'w') as project_file:
         project_file.write(project_config)
 
 project_name = ''
 print('checking for existing profiles.yml...')
 if os.path.exists(os.curdir + os.sep + 'profiles_backup.yml') and str(input('Do you want to reuse the previous profiles.yml? y/n  : ')).lower()[0] == 'y':
+    with open('profiles_backup.yml', 'r') as backup_file:
+        for result in re.findall(r'WAREHOUSE CONFIGURATION([#\-\s]+)([a-zA-Z_\-]+)', backup_file.read()):
+            project_name = result[1]
     os.system('mkdir -p ~/.dbt && cp profiles_backup.yml ~/.dbt/profiles.yml')
 else:
     project_name = str(input('What is the name of the project?\r\n')).lower()
