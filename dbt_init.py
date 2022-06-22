@@ -54,7 +54,7 @@ if os.path.exists(os.curdir + os.sep + 'profiles_backup.yml') and str(input('Do 
             project_name = result[1]
     os.system('mkdir -p ~/.dbt && cp profiles_backup.yml ~/.dbt/profiles.yml')
 else:
-    project_name = str(input('What is the name of the project?\r\n')).lower()
+    project_name = str(input('What is the name of the project? Only lowercase and underscores allowed!\r\n')).lower()
     available_adapters = {
         'postgres': ('host', 'port', 'threads', 'user', 'pass', 'dbname', 'schema'),
         'snowflake': ('account', 'user', 'password', 'role', 'warehouse', 'threads', 'database', 'schema')
