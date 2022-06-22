@@ -8,5 +8,6 @@
     "settings": {
         "workbench.colorTheme": "Andromeda Bordered"
     },
+    "workspaceFolder": "/workspace",
     "postCreateCommand": ["python", "dbt_init.py"]
 }
