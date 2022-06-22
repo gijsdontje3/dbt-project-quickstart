@@ -10,6 +10,9 @@ To use this repo to quickstart a DBT-project in VS Code, you need to have the fo
 - Docker (ms-azuretools.vscode-docker)
 - Remote - Containers (ms-vscode-remote.remote-containers)
 
+Run command **Clone repository in Container Volume**
+Pick this repository -> main branch and voila!
+
 ## Using local DBT installation
 1. Clone repository to desired location
 2. Backup any existing profiles.yml (usually at $HOME/.dbt/profiles.yml):
