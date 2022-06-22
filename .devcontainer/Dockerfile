@@ -1,7 +1,7 @@
 FROM python:slim
 
-RUN python -m pip install dbt-core dbt-postgres
+RUN python -m pip install dbt-core
 
-WORKDIR /dbt
+WORKDIR /workspaces/
 
 CMD ["/bin/bash"]
