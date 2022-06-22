@@ -37,6 +37,14 @@ def write_profiles(project_name: str, target:str, target_env: str, parameters: I
     with open('profiles.yml', 'a') as dbt_profiles:
         dbt_profiles.writelines(env_details)
 
+
+def write_project_config(project_name: str):
+    os.system('cp dbt_project_template.yml dbt_project.yml')
+    with open('dbt_project.yml', 'r') as project_file:
+        project_config = project_file.read().replace('TO_BE_REPLACED', project_name)
+        project_file.write(project_config)
+
+project_name = ''
 print('checking for existing profiles.yml...')
 if os.path.exists(os.curdir + os.sep + 'profiles_backup.yml') and str(input('Do you want to reuse the previous profiles.yml? y/n  : ')).lower()[0] == 'y':
     os.system('mkdir -p ~/.dbt && cp profiles_backup.yml ~/.dbt/profiles.yml')
@@ -46,9 +54,9 @@ else:
         'postgres': ('host', 'port', 'threads', 'user', 'pass', 'dbname', 'schema'),
         'snowflake': ('account', 'user', 'password', 'role', 'warehouse', 'threads', 'database', 'schema')
     }
-    target = determine_target(adapters=available_adapters)
+    target = determine_target(adapters = available_adapters)
     target_env = 'dev'
-    adapter_installation = install_target_adapter(target=target)
+    adapter_installation = install_target_adapter(target = target)
     write_profiles(
         project_name = project_name,
         target = target,
@@ -58,6 +66,7 @@ else:
     os.system('cp profiles.yml profiles_backup.yml')
     os.system('mkdir -p ~/.dbt && mv ./profiles.yml ~/.dbt/profiles.yml')
 
+write_project_config(project_name = project_name)
 
 os.system('dbt deps')
 os.system('mkdir -p models macros tests analyses assets')
