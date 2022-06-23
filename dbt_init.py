@@ -25,7 +25,7 @@ def install_target_adapter(target: str):
 def write_profiles(project_name: str, target:str, target_env: str, parameters: Iterable):
     os.system('cp profiles_template.yml profiles.yml')
     env_details = [
-        f'{project_name}\r\n',
+        f'{project_name}:\r\n\',
         ' '*2 + f'target: {target_env}\r\n',
         ' '*2 + f'outputs:\r\n',
         ' '*4 + f'{target_env}:\r\n',
