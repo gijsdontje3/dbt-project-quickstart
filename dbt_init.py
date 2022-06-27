@@ -12,20 +12,10 @@ def determine_target(adapters: dict):
     return target
 
 
-def install_target_adapter(target: str):
-    install_command = f'-m pip install dbt-{target}'
-    install_process = subprocess.Popen(
-        ('/usr/local/bin/python', install_command),
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
-    return install_process
-
-
 def write_profiles(project_name: str, target:str, target_env: str, parameters: Iterable):
     os.system('cp profiles_template.yml profiles.yml')
     env_details = [
-        f'{project_name}:\r\n\',
+        f'{project_name}:\r\n',
         ' '*2 + f'target: {target_env}\r\n',
         ' '*2 + f'outputs:\r\n',
         ' '*4 + f'{target_env}:\r\n',
@@ -46,6 +36,7 @@ def write_project_config(project_name: str):
     with open('dbt_project.yml', 'w') as project_file:
         project_file.write(project_config)
 
+
 project_name = ''
 print('checking for existing profiles.yml...')
 if os.path.exists(os.curdir + os.sep + 'profiles_backup.yml') and str(input('Do you want to reuse the previous profiles.yml? y/n  : ')).lower()[0] == 'y':
@@ -61,7 +52,7 @@ else:
     }
     target = determine_target(adapters = available_adapters)
     target_env = 'dev'
-    adapter_installation = install_target_adapter(target = target)
+    os.system(f'/usr/local/bin/python -m pip install dbt-{target}')
     write_profiles(
         project_name = project_name,
         target = target,
@@ -74,5 +65,17 @@ else:
 write_project_config(project_name = project_name)
 
 os.system('dbt deps')
-os.system('mkdir -p models macros tests analyses assets')
+os.system('mkdir -p models/staging models/sources macros tests analyses assets')
+
+with open('/root/.dbt/profiles.yml', 'r') as pro_file:
+    for schema in re.findall(r'schema: ([a-zA-Z_\-]+)', pro_file.read(), flags = re.MULTILINE | re.IGNORECASE):
+        os.system(f"dbt run-operation generate_source --args 'schema_name: {schema}' > {os.curdir}/{schema}.yml")
+        with open(f'{os.curdir}/{schema}.yml', 'r') as sources:
+            for result in re.findall(r'(version: 2(.*\s)+)', sources.read(), flags = re.MULTILINE | re.IGNORECASE):
+                os.system(f'touch {os.curdir}/models/sources/{schema}.yml')
+                with open(f'{os.curdir}/models/sources/{schema}.yml', 'w') as yml_file:
+                    yml_file.write(result[0])
+        os.system(f'mkdir -p {os.curdir}/models/staging/{schema}')
+        os.system(f'dbt-generator generate -s ' + os.curdir + os.sep + f'models/sources/{schema}.yml -o ' + os.curdir + os.sep + f'models/staging/{schema}')
+
 print('For more info on how to proceed from here, visit https://courses.getdbt.com/courses/fundamentals')
