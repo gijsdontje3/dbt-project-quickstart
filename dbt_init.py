@@ -1,5 +1,4 @@
-import os, subprocess, re
-from typing import Iterable
+import os, re
 
 
 def determine_target(adapters: dict):
@@ -12,7 +11,7 @@ def determine_target(adapters: dict):
     return target
 
 
-def write_profiles(project_name: str, target:str, target_env: str, parameters: Iterable):
+def write_profiles(project_name: str, target:str, target_env: str, parameters: tuple):
     os.system('cp profiles_template.yml profiles.yml')
     env_details = [
         f'{project_name}:\r\n',
