@@ -1,6 +1,6 @@
 FROM python:slim
 
-RUN python -m pip install dbt-core
+RUN python -m pip install dbt-core dbt-generator
 
 WORKDIR /workspace/
 
