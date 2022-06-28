@@ -28,13 +28,13 @@ Pull requests should:
 ### Using VS Code
 
 **Requires Docker**
-To use this repo to quickstart a DBT-project in VS Code, you need to have the following extensions installed:
+To use [our dbt-project-quickstart repo](https://github.com/DataSenseNV/dbt-project-quickstart) to quickstart a DBT-project in VS Code, you need to have the following extensions installed:
 
 - Docker (ms-azuretools.vscode-docker)
 - Remote - Containers (ms-vscode-remote.remote-containers)
 
 Run command **Clone repository in Container Volume**
-‣ -> main branch
+dbt-project-quickstart  --> main branch
 
 ### Using local DBT installation
 
@@ -157,6 +157,8 @@ DBT Cloud has scheduling built-in under ‘Deployment’ → ‘Jobs’ with the
 
 GitHub Actions can be used for scheduling as well if the project does not use DBT Cloud (or if you prefer this over the built-in scheduler). Can use cron interval as well. 
 
+Prefect provides the packages [DbtShellTask](https://docs.prefect.io/api/latest/tasks/dbt.html#dbtshelltask) and [DbtCloudRunJob](https://docs.prefect.io/api/latest/tasks/dbt.html#dbtcloudrunjob) to orchestrate DBT runs.
+
 Airflow can be used to trigger a dbt project using a custom script. Airflow most expansive but is a  non-free option. More in-depth analysis required for this workflow.
 
 ## Overview
@@ -187,13 +189,5 @@ Pass API-key, account_id and job_id to scheduler
 - [https://www.reddit.com/r/dataengineering/comments/pbaw2f/what_etl_tool_do_you_use/](https://www.reddit.com/r/dataengineering/comments/pbaw2f/what_etl_tool_do_you_use/)
 - [https://www.getdbt.com/analytics-engineering/transformation/git-workflow/](https://www.getdbt.com/analytics-engineering/transformation/git-workflow/)
 - [https://www.startdataengineering.com/post/cicd-dbt/](https://www.startdataengineering.com/post/cicd-dbt/)
-
-version: 2
-
-models:
-
-- name: users
-columns:
-    - name: favorite_number
-    tests:
-        - is_even
+- https://towardsdatascience.com/how-to-deploy-dbt-to-production-using-github-action-778bf6a1dff6
+- https://docs.getdbt.com/docs/running-a-dbt-project/running-dbt-in-production
