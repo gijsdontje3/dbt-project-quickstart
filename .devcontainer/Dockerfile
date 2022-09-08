@@ -6,7 +6,7 @@ RUN apt install -y git procps gcc
 RUN apt autoremove -y && apt clean && rm -rf /var/lib/apt/lists/*
 ENV DEBIAN_FRONTEND=dialog
 
-RUN python -m pip install dbt-core dbt-generator
+RUN python -m pip install pyodbc dbt-core dbt-generator
 
 WORKDIR /workspace/
 
