@@ -1,5 +1,9 @@
 # dbt-project-quickstart
 Custom Docker-container and python script for streamlining new DBT-projects.
+**Supports these platforms:**
+- Postgresql
+- Snowflake
+- SQLServer
 
 ## Designed for dbt-core development using Visual Studio Code.
 > However, the script can be run if dbt is installed locally as well.
