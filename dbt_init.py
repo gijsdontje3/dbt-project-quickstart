@@ -47,7 +47,8 @@ else:
     project_name = str(input('What is the name of the project? Only lowercase and underscores allowed!\r\n')).lower()
     available_adapters = {
         'postgres': ('host', 'port', 'threads', 'user', 'pass', 'dbname', 'schema'),
-        'snowflake': ('account', 'user', 'password', 'role', 'warehouse', 'threads', 'database', 'schema')
+        'snowflake': ('account', 'user', 'password', 'role', 'warehouse', 'threads', 'database', 'schema'),
+        'sqlserver': ('driver', 'server', 'port', 'schema', 'user', 'password')
     }
     target = determine_target(adapters = available_adapters)
     target_env = 'dev'
