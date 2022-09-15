@@ -48,7 +48,7 @@ else:
     available_adapters = {
         'postgres': ('host', 'port', 'threads', 'user', 'pass', 'dbname', 'schema'),
         'snowflake': ('account', 'user', 'password', 'role', 'warehouse', 'threads', 'database', 'schema'),
-        'sqlserver': ('driver', 'server', 'port', 'schema', 'user', 'password')
+        'sqlserver': ('driver', 'server', 'port', 'user', 'password', 'database', 'schema')
     }
     target = determine_target(adapters = available_adapters)
     target_env = 'dev'
