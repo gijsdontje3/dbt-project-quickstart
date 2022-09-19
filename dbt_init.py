@@ -52,7 +52,7 @@ else:
     }
     target = determine_target(adapters = available_adapters)
     target_env = 'dev'
-    os.system(f'/usr/local/bin/python -m pip install dbt-{target}')
+    os.system(f'/usr/local/bin/python -m pip {"-U" if (target == "sqlserver") else ""} install dbt-{target}')
     write_profiles(
         project_name = project_name,
         target = target,
