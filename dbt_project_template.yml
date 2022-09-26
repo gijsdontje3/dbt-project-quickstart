@@ -14,13 +14,13 @@
 # ----------------------------------------------------------------------------------------
 
 # Project names should contain only lowercase characters and underscores... oops ¯\_(ü)_/¯
-name: 'TO_BE_REPLACED'
-version: '1.1.1'
+name: 'PROJECT_NAME'
+version: '1.2.1'
 config-version: 2 # Without this, dbt assumes this file uses the (deprecated) v1 syntax.
 
 # This setting configures which "profile" dbt uses for this project.
 # Needs to match a profile defined in profiles.yml (usually located under /root/.dbt/).
-profile: 'TO_BE_REPLACED'
+profile: 'PROJECT_NAME'
 
 # ----------------------------------------------------------------------------------------
 # These configurations specify where dbt should look for different types of files.
@@ -127,14 +127,14 @@ models:
   # https://docs.getdbt.com/reference/resource-configs/snowflake-configs
   # https://docs.snowflake.com/en/user-guide/tables-temp-transient.html#transient-tables
   +transient: false
-  TO_BE_REPLACED: # Needs to match the name mentioned at the top
+  PROJECT_NAME: # Needs to match the name mentioned at the top
     # Config indicated by + and applies to all files under models/example/\
-    + materialized: view # applies project-wide
+    #+ materialized: view # applies project-wide
+    #staging:
+    #  + schema: staging # applies to folder and subdirectories
     staging:
-      + schema: staging # applies to folder and subdirectories
-    marts:
-      + materialized: table
-      + schema: data_mart
+      + materialized: view
+      + schema: staging
 
 # seeds:
 #   <seed-configs>

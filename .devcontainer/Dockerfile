@@ -10,7 +10,8 @@ RUN ACCEPT_EULA=Y apt-get install -y msodbcsql18
 RUN apt autoremove -y && apt clean && rm -rf /var/lib/apt/lists/*
 ENV DEBIAN_FRONTEND=dialog
 
-RUN python -m pip install pyodbc dbt-core dbt-generator
+RUN python -m pip install pyodbc
+RUN python -m pip install -U --pre dbt-sqlserver dbt-generator
 
 WORKDIR /workspace/
 
