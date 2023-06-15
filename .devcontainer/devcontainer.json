@@ -1,13 +1,36 @@
 {
-    "name": "dbt-project-template",
-    "dockerFile": "Dockerfile",
-    "extensions": [
-        "eliverlara.andromeda",
-        "ms-python.python"
-    ],
-    "settings": {
-        "workbench.colorTheme": "Andromeda Bordered"
-    },
-    "workspaceFolder": "/workspace",
-    "postCreateCommand": ["python", "dbt_init.py"]
+	"name": "DataSense DBT Container",
+
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	
+	"forwardPorts": [8080],
+	"appPort": [8080],
+
+	"portsAttributes": {
+		"8080": {
+			"label": "DBT Docs",
+			"requireLocalPort": true,
+			"onAutoForward": "ignore"
+		}
+	},
+
+	"customizations": {
+		"vscode": {
+			"settings": { 
+				"python.defaultInterpreterPath": "/usr/local/bin/python",
+				"workbench.colorTheme": "Andromeda Bordered"
+			},
+			"extensions": [
+				"ms-python.python",
+				"ms-toolsai.jupyter",
+				"github.copilot",
+				"eliverlara.andromeda",
+				"phplasma.csv-to-table"
+			]
+		}
+	},
+
+	"postCreateCommand": "dbt deps"
 }
