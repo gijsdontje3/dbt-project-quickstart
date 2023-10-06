@@ -3,7 +3,7 @@
 {%- 
 set relation = api.Relation.create(
     database = target.database,
-    schema = datasource.schema,
+    schema = datasource.schema ,
     identifier = datasource.identifier
 )
 -%}
